@@ -10,12 +10,42 @@
 ###############################################################################
 
 #Init Variables
-cards=( "\e[0;1;34;94m┏━┓\e[m\n\e[0;1;34;94m┃┓┃\e[m\n\e[0;34m┗┻┛\e[m" "\n\e[0;1;34;94m╻┏\e[m\n\e[0;1;34;94m┣┻┓\e[m\n\e[0;34m╹\e[m \e[0;34m╹\e[m" )
+blue="\e[0;1;34m"
+red="\e[0;1;31m"
+gray="\e[0;34m"
+rosa="\e[0;31m"
+rstclr="\e[m"
+cards=( " $blue┏━┓ \t ╻┏ \t ╻┏ $rstclr
+ $blue┃┓┃ \t ┣┻┓ \t ┣┻┓ $rstclr
+ $gray┗┻┛ \t ╹ ╹ \t ╹ ╹ $rstclr"
+
+"$blue╻┏ \t ┏━┓ \t ╻┏ $rstclr
+ $blue┣┻┓ \t ┃┓┃ \t ┣┻┓ $rstclr
+ $gray╹ ╹ \t ┗┻┛ \t ╹ ╹ $rstclr"
+
+"$blue╻┏ \t ╻┏ \t ┏━┓ $rstclr
+ $blue┣┻┓ \t ┣┻┓ \t ┃┓┃ $rstclr
+ $gray╹ ╹ \t ╹ ╹ \t ┗┻┛ $rstclr"
+
+"$blue╻ ╻ \t ╻ ╻ \t ╻ ╻ $rstclr
+$blue ╺╋╸ \t ╺╋╸ \t ╺╋╸ $rstclr
+$gray ╹ ╹ \t ╹ ╹ \t ╹ ╹ $rstclr"
+
+"$red┏━┓$rstclr \t $blue╻┏ \t ╻┏ $rstclr
+ $red┃┓┃$rstclr \t $blue┣┻┓ \t ┣┻┓ $rstclr
+ $rosa┗┻┛$rstclr \t $gray╹ ╹ \t ╹ ╹ $rstclr"
+
+"$blue╻┏$rstclr \t $red┏━┓$rstclr \t $blue╻┏ $rstclr
+ $blue┣┻┓$rstclr \t $red┃┓┃$rstclr \t $blue┣┻┓ $rstclr
+ $gray╹ ╹$rstclr \t $rosa┗┻┛$rstclr \t $gray╹ ╹ $rstclr"
+
+"$blue╻┏ \t ╻┏$rstclr \t $red┏━┓ $rstclr
+ $blue┣┻┓ \t ┣┻┓$rstclr \t $red┃┓┃ $rstclr
+ $gray╹ ╹ \t ╹ ╹$rstclr \t $rosa┗┻┛ $rstclr"
+)
 
 
-
-
-#Init Function
+#Init Functios
 
 load_tkoq() {
 
@@ -33,7 +63,17 @@ load_tkoq() {
 	[[ -z $key ]] && return 100
 }
 
+prestart_tkoq() {
+	
+	clear
+	echo -e "*******************************************"
+	echo -e "${cards[0]} \n ${cards[1]} \n ${cards[2]} \n ${cards[3]} \n ${cards[4]} \n ${cards[5]} \n ${cards[6]}" 
+
+
+
+
+}
 
 
 load_tkoq
-
+prestart_tkoq
