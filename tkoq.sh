@@ -82,7 +82,8 @@ load_tkoq() {
 	echo -e "$queen == Queen Cards"
 	echo -e "$king == King Cards"
 	
-	echo -e "*******************************************"
+	echo -e "\nIf you find the Queen you won else you lose."
+	echo -e "\n*******************************************"
 	echo -e "\nPress a key for continue..."
 	read -s -n 1 key
 	
@@ -129,7 +130,6 @@ shuffle_cards(){
 		second=$(echo "0$(echo "$second-0.1" | bc )")
 		sleep $second
 	done
-	clear
 
 }
 
@@ -183,6 +183,7 @@ print_result() {
 
 choose_cards() {
 	
+	clear
 	checkpts
 	echo -e " ${cards[3]}"
 	echo -e "[ 0 ] \t[ 1 ] \t[ 2 ]"
