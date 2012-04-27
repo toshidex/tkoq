@@ -18,10 +18,15 @@ gray="\e[0;34m"
 lgreen="\e[0;33m"
 rosa="\e[0;31m"
 rstclr="\e[m"
+
+computerpts=0
+playerpts=0
+index=0
+
 queen="$blue┏━┓\n┃┓┃\n$rstclr$gray┗┻┛$rstclr"
 king="$blue╻┏\n┣┻┓$rstclr\n$gray╹ ╹$rstclr"
 
-cards=( " $blue┏━┓ \t ╻┏ \t ╻┏ $rstclr
+cards=( "$blue┏━┓ \t ╻┏ \t ╻┏ $rstclr
  $blue┃┓┃ \t ┣┻┓ \t ┣┻┓ $rstclr
  $gray┗┻┛ \t ╹ ╹ \t ╹ ╹ $rstclr"
 
@@ -72,7 +77,7 @@ load_tkoq() {
 
 	clear
 	echo -e "*******************************************"
-	echo -e "\nWelcome to Tkoq [ Two King One Queen ]"
+	echo -e "\nWelcome to Tkoq [ Two King One Queen ] - v0.0.1"
 	echo -e "\n* Istructions: "
 	echo -e "$queen == Queen Cards"
 	echo -e "$king == King Cards"
@@ -84,24 +89,113 @@ load_tkoq() {
 	[[ -z $key ]] && return 100
 }
 
+checkpts() {
+
+	echo "*******************************************"
+	echo -e "* Player:   [$green $playerpts $rstclr]\t\t\t  *"
+	echo -e "* Computer: [$red $computerpts $rstclr]\t\t\t  *"
+	echo -e "*******************************************\n"
+}
+
 
 shuffle_cards(){
 	
+	local second=0.5
+	for i in $(seq 0 4); do
+	
+		index=$((RANDOM%4))
+		if [[ $index == 3 ]]; then
+			clear
+			checkpts
+			index=$((--index))
+			echo -e " ${cards[$index]}"
+		elif [[ $index == 2 ]]; then
+			clear
+			checkpts
+			index=$((--index))
+			echo -e " ${cards[$index]}"
+		elif [[ $index == 1 ]]; then
+			clear
+			checkpts
+			index=$((RANDOM%2))
+			echo -e " ${cards[$index]}"
+		elif [[ $index == 0 ]]; then
+			clear
+			checkpts
+                        index=$((RANDOM%3))
+			echo -e " ${cards[$index]}"
+		fi
+		
+		second=$(echo "0$(echo "$second-0.1" | bc )")
+		sleep $second
+	done
 	clear
-	echo -e "${cards[0]}"
-	sleep 0.2
-	clear
-	echo -e " ${cards[1]}"
-	sleep 0.2
-	clear
-	echo -e " ${cards[2]}"
-	sleep 0.2
 
+}
+
+print_result() {
+
+	if [[ $key == $index ]]; then
+		clear
+		checkpts
+	
+		echo -e " ${cards[$((key+7))]}"
+		playerpts=$((++playerpts))
+		echo -e "\n\t[ YOU WIN ]"
+		sleep 0.5
+	else
+		clear
+		checkpts
+
+		echo -e " ${cards[$((key+4))]}"
+		computerpts=$((++computerpts))
+		echo -e "\n\t[ YOU LOSE ]"
+		sleep 0.5
+	fi
+
+
+}
+
+print_result() {
+
+	 if [[ $key == $index ]]; then
+                clear
+                checkpts
+
+                echo -e " ${cards[$((key+7))]}"
+                playerpts=$((++playerpts))
+                echo -e "\n\t[ YOU WIN ]"
+                sleep 0.5
+        else
+                clear
+                checkpts
+
+                echo -e " ${cards[$((key+4))]}"
+                computerpts=$((++computerpts))
+                echo -e "\n\t[ YOU LOSE ]"
+                sleep 0.5
+        fi
+
+
+
+}
+
+
+choose_cards() {
+	
+	checkpts
+	echo -e " ${cards[3]}"
+	echo -e "[ 0 ] \t[ 1 ] \t[ 2 ]"
+	echo -e "\nChoose your cards [0][1][2]: "
+	read -s -n1 key
+	
+	print_result
 }
 
 prestart_tkoq() {
 	
 	clear
+	checkpts
 	echo -e "There are three cards..."
 	echo -e "\n ${cards[3]}"
 	echo -e "\nAre you ready to play? [y/n]"
@@ -109,12 +203,18 @@ prestart_tkoq() {
 	
 	if [[ $key == "y" || $key == "Y" ]]; then
 		shuffle_cards
+		choose_cards
+		
+		until [[ ! false ]]; do
+			shuffle_cards
+		        choose_cards
+	
+			if [[ $playerpts == 3 || $computerpts == 3 ]]; then print_result; exit 0; fi
+		done
 	else
 		exit 0
 	fi
-#	echo -e "${cards[0]} \n ${cards[1]} \n ${cards[2]} \n ${cards[3]} \n ${cards[4]} \n ${cards[5]} \n ${cards[6]} \n ${cards[7]} \n ${cards[8]} \n ${cards[9]}" 
 }
-
 
 load_tkoq
 prestart_tkoq
